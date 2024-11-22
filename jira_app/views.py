@@ -12,7 +12,7 @@ def signupPage(request):
     if request.method == 'GET':
         return render(request, 'signup.html')
     elif request.method == 'POST':
-        #check password 
+        #check password
         pwd1 = request.POST.get('pwd1')
         pwd2 = request.POST.get('pwd2')
         username = request.POST.get('username')
