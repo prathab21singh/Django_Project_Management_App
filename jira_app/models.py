@@ -1,6 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+
+
+class CustomUser(AbstractUser):
+    user_data_type = (("1","Admin"),("2","Manager"),("3","Employee"))
+    user_data = models.CharField(default=3, choices=user_data_type, max_length=10)
 
 class ClientDetails(models.Model):
     id = models.AutoField(primary_key=True)
@@ -58,3 +64,8 @@ class EmployeeLogin(models.Model):
     email = models.EmailField(unique=True, null=True)
     #updated length for saving hased password
     password = models.CharField(max_length=150)
+    user_type_data = {
+        0:"Employee",
+        1:"Manager",
+    }
+    user_type = models.CharField(default=0,choices=user_type_data, max_length=10)

@@ -131,4 +131,11 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'jira_app.CustomUser'
 
+LOGIN_URL = 'login'
+
+AUTHENTICATION_BACKENDS = [
+    'jira_app.EmailBackEnd.EmailBackEnd',
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+]

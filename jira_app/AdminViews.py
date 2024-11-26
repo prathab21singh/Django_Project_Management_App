@@ -5,8 +5,10 @@ from jira_app.models import EmployeeDetails, DepartmentDetails, ClientDetails, P
 from django.views.decorators.csrf import csrf_exempt
 import traceback
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def admin_home(request):
     employee_count = EmployeeDetails.objects.all().count()
     client_count = ClientDetails.objects.all().count()
@@ -24,9 +26,11 @@ def admin_home(request):
 
     return render(request, "admin_template/home_content.html", context=context)
 
+@login_required
 def add_employee(request):
     return render(request, "admin_template/add_employee_template.html")
 
+@login_required
 def add_employee_save(request):
     if request.method != 'POST':
         messages.error(request, "Invalid Method ")
@@ -44,7 +48,7 @@ def add_employee_save(request):
 
         try:
             if email and username and password and name and password and phone and gender and role:
-                user_details = EmployeeDetails.objects.create(name=name, username=username, email=email, phone=phone, gender=gender, role=role)
+                user_details = EmployeeDetails.objects.create(name=name, username=username, email=email, phone=phone, gender=gender, role=role, department_id=department_id, manager_id=manager_id)
                 user_details.save() 
                 hashed_password = make_password(password)
                 user = EmployeeLogin.objects.create(emp_id=user_details ,email=email, password=hashed_password)
@@ -59,6 +63,7 @@ def add_employee_save(request):
             messages.error(request, "Failed to Add Employee!" + traceback.format_exc())
             return redirect('add_employee')
 
+@login_required
 def manage_employee(request):
     employees = EmployeeDetails.objects.all()
     context = {
@@ -66,6 +71,7 @@ def manage_employee(request):
     }
     return render(request, "admin_template/manage_employee_template.html", context=context)
 
+@login_required
 def edit_employee(request, emp_id):
     employee = EmployeeDetails.objects.get(id=emp_id)
 
@@ -75,6 +81,7 @@ def edit_employee(request, emp_id):
     }
     return render(request, "admin_template/edit_employee_template.html",context)
 
+@login_required
 def edit_employee_save(request, emp_id):
     if request.method != 'POST':
         messages.error(request, "Invalid Method ")
@@ -96,6 +103,7 @@ def edit_employee_save(request, emp_id):
                 user_details.username =username
                 user_details.role = role
                 user_details.phone = phone
+                user_details.manager_id = manager_id
                 user_details.save() 
                 user = EmployeeLogin.objects.get(emp_id=emp_id)
                 user.email = email
@@ -110,6 +118,7 @@ def edit_employee_save(request, emp_id):
             messages.error(request, "Failed to Add Employee!" + traceback.format_exc())
             return redirect('add_employee')
 
+@login_required
 def delete_employee(request, emp_id):
     user = EmployeeLogin.objects.get(emp_id=emp_id)
     user.delete()
@@ -131,6 +140,13 @@ def check_username_exist(request):
     username = request.POST['username']
     user_obj = EmployeeDetails.objects.filter(username=username).exists()
     if user_obj:
+        print(2222)
         return HttpResponse(True)
     else:
         return HttpResponse(False)
+    
+
+# Client Functions
+
+def add_client(request):
+    return render(request, "add_client_template.html")

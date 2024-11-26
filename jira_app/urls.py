@@ -6,6 +6,7 @@ from . import AdminViews
 urlpatterns = [
     path('', views.loginPage, name="login"),
     path('signup/', views.signupPage, name= "signup"),
+    path('logout/', views.logout_user, name="logout_user"),
     path('admin_home/', AdminViews.admin_home, name= "admin_home"),
     path('add_employee/', AdminViews.add_employee, name= "add_employee"),
     path('add_employee_save/', AdminViews.add_employee_save, name="add_employee_save"),
