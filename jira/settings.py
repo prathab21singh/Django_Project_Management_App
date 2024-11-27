@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'jira.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'jira',
-        'USER': 'root',
-        'PASSWORD': 'prathab',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'NAME': 'prathab21$jira',
+        'USER': 'prathab21',
+        'PASSWORD': 'Jeyasingh@2707',
+        'HOST': 'prathab21.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
     }
 }
 
