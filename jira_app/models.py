@@ -59,13 +59,13 @@ class EmployeeBankDetails(models.Model):
     bank_ifsc = models.CharField(max_length=25)
 
 
-class EmployeeLogin(models.Model):
-    emp_id = models.ForeignKey(EmployeeDetails, on_delete=models.DO_NOTHING)
-    email = models.EmailField(unique=True, null=True)
-    #updated length for saving hased password
-    password = models.CharField(max_length=150)
-    user_type_data = {
-        0:"Employee",
-        1:"Manager",
-    }
-    user_type = models.CharField(default=0,choices=user_type_data, max_length=10)
+# class EmployeeLogin(models.Model):
+#     emp_id = models.ForeignKey(EmployeeDetails, on_delete=models.DO_NOTHING)
+#     email = models.EmailField(unique=True, null=True)
+#     #updated length for saving hased password
+#     password = models.CharField(max_length=150)
+#     user_type_data = {
+#         0:"Employee",
+#         1:"Manager",
+#     }
+#     user_type = models.CharField(default=0,choices=user_type_data, max_length=10)
