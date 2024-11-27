@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from jira_app.models import EmployeeDetails, DepartmentDetails, ClientDetails, ProjectDetails, EmployeeLogin
+from jira_app.models import EmployeeDetails, DepartmentDetails, ClientDetails, ProjectDetails, CustomUser
 from django.views.decorators.csrf import csrf_exempt
 import traceback
 from django.contrib.auth.hashers import make_password, check_password
@@ -50,8 +50,9 @@ def add_employee_save(request):
             if email and username and password and name and password and phone and gender and role:
                 user_details = EmployeeDetails.objects.create(name=name, username=username, email=email, phone=phone, gender=gender, role=role, department_id=department_id, manager_id=manager_id)
                 user_details.save() 
-                hashed_password = make_password(password)
-                user = EmployeeLogin.objects.create(emp_id=user_details ,email=email, password=hashed_password)
+                # hashed_password = make_password(password)
+                id = EmployeeDetails.objects.get(username=username).id
+                user = CustomUser.objects.create(id=id ,email=email, password=password,user_data_type="3")
                 user.save()
                 messages.success(request, "Employee Added Successfully!")
                 return redirect('add_employee')
@@ -105,7 +106,7 @@ def edit_employee_save(request, emp_id):
                 user_details.phone = phone
                 user_details.manager_id = manager_id
                 user_details.save() 
-                user = EmployeeLogin.objects.get(emp_id=emp_id)
+                user = CustomUser.objects.get(emp_id=emp_id)
                 user.email = email
                 user.save()
                 messages.success(request, "Employee Updated Successfully!")
@@ -120,7 +121,7 @@ def edit_employee_save(request, emp_id):
 
 @login_required
 def delete_employee(request, emp_id):
-    user = EmployeeLogin.objects.get(emp_id=emp_id)
+    user = CustomUser.objects.get(emp_id=emp_id)
     user.delete()
     user_details = EmployeeDetails.objects.get(id=emp_id)
     user_details.delete()

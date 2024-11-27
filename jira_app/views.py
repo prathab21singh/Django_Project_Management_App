@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from . import AdminViews
-from .models import EmployeeLogin, CustomUser
+from .models import CustomUser
 from .authentication import EmailBackEnd
 
 # Create your views here.
