@@ -6,7 +6,7 @@ from .models import CustomUser, EmployeeBankDetails, EmployeeDetails, Department
 
 # Register your models here.
 
-#Add Fields to CustomUser Admin
+#Add CustomUser Fields to Admin
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
 
